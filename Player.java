@@ -11,7 +11,8 @@ public class Player {
 	
 
 public void addPoint(int boxNum) {
-	for(int i=0; i < boxesNotDrawn.size(); i++) {
+	while(boxesNotDrawn.size() != 0) {
+		for (int i = 0; i < boxesNotDrawn.size(); i++) {
 		if (boxesNotDrawn.get(i) == boxNum) {
 			if(!lastMove) {			     //if player went last
 				playerPoints++;    		 //add points to player score
@@ -20,6 +21,7 @@ public void addPoint(int boxNum) {
 				computerPoints++;  		 //if computer went last, add points to computer score
 			} 
 			boxesNotDrawn.remove(i);     //remove it from array because drawn
+		}
 		}
 	}
 	System.out.println("Player: " + playerPoints);
