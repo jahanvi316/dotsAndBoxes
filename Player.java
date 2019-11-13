@@ -1,5 +1,6 @@
 package DotsAndBoxes;
 
+import java.util.List;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -7,12 +8,14 @@ public class Player {
 	public int playerPoints = 0;
 	public int computerPoints = 0;
 	public boolean lastMove = false; //player went last = true; AI went last = false
-	public ArrayList<Integer> boxesNotDrawn = new ArrayList<Integer>(Arrays.asList(1,2,3,4,5,6,7,8,9));
+	public List<Integer> boxesNotDrawn = new ArrayList<>(Arrays.asList(1,2,3,4,5,6,7,8,9));
 	
 
 public void addPoint(int boxNum) {
-	while(boxesNotDrawn.size() != 0) {
-		for (int i = 0; i < boxesNotDrawn.size(); i++) {
+	//int goalLength = boxesNotDrawn.size() - 1;
+	//while(boxesNotDrawn.size() != goalLength) {
+		//if(boxesNotDrawn.contains(boxNum)) {
+	for (int i=0; i < boxesNotDrawn.size(); i++) {
 		if (boxesNotDrawn.get(i) == boxNum) {
 			if(!lastMove) {			     //if player went last
 				playerPoints++;    		 //add points to player score
@@ -20,10 +23,17 @@ public void addPoint(int boxNum) {
 			else {
 				computerPoints++;  		 //if computer went last, add points to computer score
 			} 
+//			int indexBoxNum = boxesNotDrawn.indexOf(boxNum);
 			boxesNotDrawn.remove(i);     //remove it from array because drawn
-		}
+			
+			i = boxesNotDrawn.size();
 		}
 	}
+				
+		//}
+
+		
+	//}
 	System.out.println("Player: " + playerPoints);
 	System.out.println("Computer: " + computerPoints);
 }

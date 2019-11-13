@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 
 import javax.sound.sampled.Line;
@@ -23,9 +24,28 @@ public class Board implements MouseListener {
 	public int box7SidesDrawn = 0;
 	public int box8SidesDrawn = 0;
 	public int box9SidesDrawn = 0;
+	public int totalBoxesDrawn = 0;
+	public boolean box1Checked = false;
+	public boolean box2Checked = false;
+	public boolean box3Checked = false;
+	public boolean box4Checked = false;
+	public boolean box5Checked = false;
+	public boolean box6Checked = false;
+	public boolean box7Checked = false;
+	public boolean box8Checked = false;
+	public boolean box9Checked = false;
 	Player testPlayer = new Player();
 	
 	JFrame frame = new JFrame();
+	
+	/*frame.addWindowListener(new WindowAdapter() {
+        public void windowClosing(WindowEvent windowEvent){
+           System.exit(0);
+        }
+     )); */
+	
+	
+	
 	JPanel board = new JPanel(new GridLayout()) {
 		public void paintComponent(Graphics g) {
 
@@ -93,35 +113,30 @@ public class Board implements MouseListener {
 			board.addMouseListener(clicky);
 			
 		};
-
 	};
 
 	public class MouseEventListener extends JPanel implements MouseListener {
-		/**
-		 * 
-		 */
 
 		@Override
 		public void mouseClicked(MouseEvent e) {
-			int x = e.getX();
-			int y = e.getY();
-			try {
-				line(x, y, Color.BLUE);
-			} catch (InterruptedException e1) {
-//				JDialog message = new JDialog(message, "Error");
-//		    	message.add("This is not a valid line. Sorry, try again.", message);
-//		    	message.setVisible(true);
-
-//				JOptionPane.showMessageDialog(frame,
-//		    		    "This is not a valid line. Sorry, try again.",
-//		    		    "Error",
-//		    		    JOptionPane.ERROR_MESSAGE);
+				int x = e.getX();
+				int y = e.getY();
+				try {
+					line(x, y, Color.BLUE);
+				} catch (InterruptedException e1) {
+	//				JDialog message = new JDialog(message, "Error");
+	//		    	message.add("This is not a valid line. Sorry, try again.", message);
+	//		    	message.setVisible(true);
+	
+	//				JOptionPane.showMessageDialog(frame,
+	//		    		    "This is not a valid line. Sorry, try again.",
+	//		    		    "Error",
+	//		    		    JOptionPane.ERROR_MESSAGE);
+				
+				}
 			
 			}
 			
-			}
-			
-
 		@Override
 		public void mousePressed(MouseEvent e) {
 
@@ -222,12 +237,17 @@ public class Board implements MouseListener {
 			g.setStroke(new BasicStroke(5));
 			g.setColor(lineColor);
 			int lineNum = lineNumber(xStart, yStart, xEnd, yEnd);
-			linesDrawn.add(lineNum);
-		//	System.out.println("ArrayList : " + linesDrawn);
-		//	System.out.println("end game? " + endGame());
+			if (!linesDrawn.contains(lineNum)) {  //if line is not already in the list, add lineNum
+				linesDrawn.add(lineNum);
+			}
+			else {
+				System.out.println("This is already a line.");
+			}
 			g.drawLine(xStart, yStart, xEnd, yEnd); 
-			endGame();
-		
+			System.out.println("ArrayList : " + linesDrawn);
+			System.out.println("end game? " + endGame());
+			//endGame();
+			
 		}
 	}
 
@@ -516,7 +536,7 @@ public class Board implements MouseListener {
 		}
 	}
 
-	public boolean box5Drawn() { 					//Sides 5, 16, 19, 8
+	public boolean box5Drawn() { 					//Sides 5, 18, 19, 8
 		Boolean a = false;
 		Boolean b = false;
 		Boolean c = false;
@@ -525,7 +545,7 @@ public class Board implements MouseListener {
 			if (linesDrawn.get(i) == 5) {
 				a = true;
 			}
-			if (linesDrawn.get(i) == 16) {
+			if (linesDrawn.get(i) == 18) {
 				b = true;
 			}
 			if (linesDrawn.get(i) == 19) {
@@ -600,7 +620,7 @@ public class Board implements MouseListener {
 		}
 	}
 	
-	public boolean box8Drawn() { 					//Sides 8, 22, 23 11
+	public boolean box8Drawn() { 					//Sides 8, 22, 23, 11
 		Boolean a = false;
 		Boolean b = false;
 		Boolean c = false;
@@ -636,22 +656,15 @@ public class Board implements MouseListener {
 		for (int i = 0; i < linesDrawn.size(); i++) {
 			if (linesDrawn.get(i) == 9) {
 				a = true;
-			//	System.out.println("a: " + a);
 			}
-			if (linesDrawn.get(i) == 22) {
+			if (linesDrawn.get(i) == 23) {
 				b = true;
-			//	System.out.println("b: " + b);
-
 			}
 			if (linesDrawn.get(i) == 24) {
 				c = true;
-			//	System.out.println("c: " + c);
-
 			}
 			if (linesDrawn.get(i) == 12) {
 				d = true;
-			//	System.out.println("d: " + d);
-
 			}
 		}
 		if (a && b && c && d) {
@@ -827,14 +840,81 @@ public class Board implements MouseListener {
 	
 
 	public boolean endGame() {
+		if (box1Drawn() && !box1Checked) {
+			totalBoxesDrawn++;
+			box1Checked = true;
+		}
+		if (box2Drawn() && !box2Checked) {
+			totalBoxesDrawn++;
+			box2Checked = true;
+		}
+		if (box3Drawn() && !box3Checked) {
+			totalBoxesDrawn++;
+			box3Checked = true;
+		}
+		if (box4Drawn() && !box4Checked) {
+			totalBoxesDrawn++;
+			box4Checked = true;
+		}
+		if (box5Drawn() && !box5Checked) {
+			totalBoxesDrawn++;
+			box5Checked = true;
+		}
+		if (box6Drawn() && !box6Checked) {
+			totalBoxesDrawn++;
+			box6Checked = true;
+		}
+		if (box7Drawn() && !box7Checked) {
+			totalBoxesDrawn++;
+			box7Checked = true;
+		}
+		if (box8Drawn() && !box8Checked) {
+			totalBoxesDrawn++;
+			box8Checked = true;
+		}
+		if (box9Drawn() && !box9Checked) {
+			totalBoxesDrawn++;
+			box9Checked = true;
+		}
 		//System.out.println("Box 9: " + box9Drawn());
-		if (box1Drawn() && box2Drawn() && box3Drawn() && box4Drawn() && box5Drawn() && box6Drawn() && box7Drawn() && box8Drawn() && box9Drawn()) { //if all boxes are drawn
+		if (totalBoxesDrawn == 9) { //if all boxes are drawn
 			System.out.println("Game finished");
 			scoreBoard finalScoreBoard = new scoreBoard();
 			return true;
 		}
 		else {
+			testPlayer.move(); //if game hasn't ended, AI moves
 			return false;
 		}
+	}
+
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
 	}
 }
