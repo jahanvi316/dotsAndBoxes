@@ -5,36 +5,37 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.awt.event.WindowEvent;
 import java.util.ArrayList;
-
-import javax.sound.sampled.Line;
 import javax.swing.*;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-public class Board implements MouseListener {
-	ArrayList<Integer> linesDrawn = new ArrayList<Integer>();
-	public int box1SidesDrawn = 0;
-	public int box2SidesDrawn = 0;
-	public int box3SidesDrawn = 0;
-	public int box4SidesDrawn = 0;
-	public int box5SidesDrawn = 0;
-	public int box6SidesDrawn = 0;
-	public int box7SidesDrawn = 0;
-	public int box8SidesDrawn = 0;
-	public int box9SidesDrawn = 0;
-	public int totalBoxesDrawn = 0;
-	public boolean box1Checked = false;
-	public boolean box2Checked = false;
-	public boolean box3Checked = false;
-	public boolean box4Checked = false;
-	public boolean box5Checked = false;
-	public boolean box6Checked = false;
-	public boolean box7Checked = false;
-	public boolean box8Checked = false;
-	public boolean box9Checked = false;
-	Player testPlayer = new Player();
+public class Board extends JPanel implements MouseListener{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	public static ArrayList<Integer> linesDrawn = new ArrayList<Integer>();
+	public static int box1SidesDrawn = 0;
+	public static int box2SidesDrawn = 0;
+	public static int box3SidesDrawn = 0;
+	public static int box4SidesDrawn = 0;
+	public static int box5SidesDrawn = 0;
+	public static int box6SidesDrawn = 0;
+	public static int box7SidesDrawn = 0;
+	public static int box8SidesDrawn = 0;
+	public static int box9SidesDrawn = 0;
+	public static int totalBoxesDrawn = 0;
+	public static boolean box1Checked = false;
+	public static boolean box2Checked = false;
+	public static boolean box3Checked = false;
+	public static boolean box4Checked = false;
+	public static boolean box5Checked = false;
+	public static boolean box6Checked = false;
+	public static boolean box7Checked = false;
+	public static boolean box8Checked = false;
+	public static boolean box9Checked = false;
+	static Player testPlayer = new Player();
 	
 	JFrame frame = new JFrame();
 	
@@ -46,7 +47,12 @@ public class Board implements MouseListener {
 	
 	
 	
-	JPanel board = new JPanel(new GridLayout()) {
+	  public static JPanel board = new JPanel(new GridLayout()) {
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+
 		public void paintComponent(Graphics g) {
 
 			// g.drawLine(x1, y1, x2, y2);
@@ -54,7 +60,7 @@ public class Board implements MouseListener {
 			g2.setStroke(new BasicStroke(5));
 			g2.setColor(Color.GRAY);
 
-			final MouseEventListener clicky = new MouseEventListener();
+
 
 			// box 1
 			g2.drawLine(50, 50, 50, 150);
@@ -110,15 +116,17 @@ public class Board implements MouseListener {
 			g2.drawLine(350, 250, 350, 350);
 			g2.drawLine(250, 350, 350, 350);
 			
-			board.addMouseListener(clicky);
+
 			
 		};
 	};
+	
 
 	public class MouseEventListener extends JPanel implements MouseListener {
 
 		@Override
 		public void mouseClicked(MouseEvent e) {
+			if(!testPlayer.lastMove) {
 				int x = e.getX();
 				int y = e.getY();
 				try {
@@ -134,6 +142,7 @@ public class Board implements MouseListener {
 	//		    		    JOptionPane.ERROR_MESSAGE);
 				
 				}
+			  }
 			
 			}
 			
@@ -170,6 +179,8 @@ public class Board implements MouseListener {
 	public Board() {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		board.setBounds(0, 0, 500, 500);
+		final MouseEventListener clicky = new MouseEventListener();
+		board.addMouseListener(clicky);
 		frame.setSize(500, 500);
 
 		frame.add(board);
@@ -238,7 +249,9 @@ public class Board implements MouseListener {
 			g.setColor(lineColor);
 			int lineNum = lineNumber(xStart, yStart, xEnd, yEnd);
 			if (!linesDrawn.contains(lineNum)) {  //if line is not already in the list, add lineNum
-				linesDrawn.add(lineNum);
+				linesDrawn.add(lineNum);	
+				testPlayer.lastMove = true;
+				testPlayer.move();
 			}
 			else {
 				System.out.println("This is already a line.");
@@ -246,9 +259,18 @@ public class Board implements MouseListener {
 			g.drawLine(xStart, yStart, xEnd, yEnd); 
 			System.out.println("ArrayList : " + linesDrawn);
 			System.out.println("end game? " + endGame());
+			System.out.println("Player: " + Player.playerPoints);
+			System.out.println("Computer: " + Player.computerPoints);
 			//endGame();
 			
 		}
+	}
+	
+	public static void AIDraw(int xStart, int yStart, int xEnd, int yEnd) {
+		Graphics2D g = (Graphics2D) board.getGraphics();
+		g.setStroke(new BasicStroke(5));
+		g.setColor(Color.red);
+		g.drawLine(xStart, yStart, xEnd, yEnd);
 	}
 
 	public int lineNumber(int xStart, int yStart, int xEnd, int yEnd) {          //method to label all the lines possible
@@ -424,7 +446,103 @@ public class Board implements MouseListener {
 		return -1;
 	}
 
-	public boolean box1Drawn() { 					//Sides 1, 13, 14, 4
+	public static int xStart(int lineNum) {				//method that returns the xStart coordinate via the line number
+		if(lineNum == 1 || lineNum == 4 || lineNum == 7 || lineNum == 10 || lineNum == 13 || lineNum == 17 || lineNum == 21) {
+			return 50;
+		}
+		else {
+			if(lineNum == 2 || lineNum == 5 || lineNum == 8 || lineNum == 11 || lineNum == 14 || lineNum == 18 || lineNum == 22) {
+				return 150;
+			}
+			else {
+				if(lineNum == 3 || lineNum == 6 || lineNum == 9 || lineNum == 12 || lineNum == 15 || lineNum == 19 || lineNum == 22) {
+					return 250;
+				}
+				else {
+					if(lineNum == 16 || lineNum == 20 || lineNum == 24) {
+						return 350;
+					}
+					else {
+						return -1;
+					}
+				}
+			}
+		}
+	}
+
+	public static int yStart(int lineNum) {				//method that returns the yStart coordinate via the line number
+		if(lineNum == 1 || lineNum == 2 || lineNum == 3 || lineNum == 13 || lineNum == 14 || lineNum == 15 || lineNum == 16) {
+			return 50;
+		}
+		else {
+			if(lineNum == 4 || lineNum == 5 || lineNum == 6 || lineNum == 17 || lineNum == 18 || lineNum == 19 || lineNum == 20) {
+				return 150;
+			}
+			else {
+				if(lineNum == 7 || lineNum == 8 || lineNum == 9 || lineNum == 21 || lineNum == 22 || lineNum == 23 || lineNum == 24) {
+					return 250;
+				}
+				else {
+					if(lineNum == 10 || lineNum == 11 || lineNum == 12) {
+						return 350;
+					}
+					else {
+						return -1;
+					}
+				}
+			}
+		}
+	}
+
+	public static int xEnd(int lineNum) {				//method that returns the xEnd coordinate via the line number
+		if(lineNum == 13 || lineNum == 17 || lineNum == 21) {
+			return 50;
+		}
+		else {
+			if(lineNum == 1 || lineNum == 4 || lineNum == 7 || lineNum == 10 || lineNum == 14 || lineNum == 18 || lineNum == 22) {
+				return 150;
+			}
+			else {
+				if(lineNum == 2 || lineNum == 5 || lineNum == 8 || lineNum == 11 || lineNum == 15 || lineNum == 19 || lineNum == 22) {
+					return 250;
+				}
+				else {
+					if(lineNum == 3|| lineNum == 6 || lineNum == 9 || lineNum == 12 || lineNum == 16 || lineNum == 20 || lineNum == 24) {
+						return 350;
+					}
+					else {
+						return -1;
+					}
+				}
+			}
+		}
+	}
+
+	public static int yEnd(int lineNum) {				//method that returns the yEnd coordinate via the line number
+		if(lineNum == 1 || lineNum == 2 || lineNum == 3) {
+			return 50;
+		}
+		else {
+			if(lineNum == 4 || lineNum == 5 || lineNum == 6 || lineNum == 13 || lineNum == 14 || lineNum == 15 || lineNum == 16) {
+				return 150;
+			}
+			else {
+				if(lineNum == 7 || lineNum == 8 || lineNum == 9 || lineNum == 17 || lineNum == 18 || lineNum == 19 || lineNum == 20) {
+					return 250;
+				}
+				else {
+					if(lineNum == 10 || lineNum == 11 || lineNum == 12 || lineNum == 21 || lineNum == 22 || lineNum == 23 || lineNum == 24) {
+						return 350;
+					}
+					else {
+						return -1;
+					}
+				}
+			}
+		}
+	}
+	
+	public static boolean box1Drawn() { 					//Sides 1, 13, 14, 4
 		Boolean a = false;
 		Boolean b = false;
 		Boolean c = false;
@@ -452,7 +570,7 @@ public class Board implements MouseListener {
 		}
 	}
 
-	public boolean box2Drawn() { 					//Sides 2, 14, 15, 5
+	public static boolean box2Drawn() { 					//Sides 2, 14, 15, 5
 		Boolean a = false;
 		Boolean b = false;
 		Boolean c = false;
@@ -480,7 +598,7 @@ public class Board implements MouseListener {
 		}
 	}
 
-	public boolean box3Drawn() { 					//Sides 3, 15, 16, 6
+	public static boolean box3Drawn() { 					//Sides 3, 15, 16, 6
 		Boolean a = false;
 		Boolean b = false;
 		Boolean c = false;
@@ -508,7 +626,7 @@ public class Board implements MouseListener {
 		}
 	}
 
-	public boolean box4Drawn() { 					//Sides 4, 17, 18, 7
+	public static boolean box4Drawn() { 					//Sides 4, 17, 18, 7
 		Boolean a = false;
 		Boolean b = false;
 		Boolean c = false;
@@ -536,7 +654,7 @@ public class Board implements MouseListener {
 		}
 	}
 
-	public boolean box5Drawn() { 					//Sides 5, 18, 19, 8
+	public static boolean box5Drawn() { 					//Sides 5, 18, 19, 8
 		Boolean a = false;
 		Boolean b = false;
 		Boolean c = false;
@@ -564,7 +682,7 @@ public class Board implements MouseListener {
 		}
 	}
 	
-	public boolean box6Drawn() { 					//Sides 6, 19, 20, 9
+	public static boolean box6Drawn() { 					//Sides 6, 19, 20, 9
 		Boolean a = false;
 		Boolean b = false;
 		Boolean c = false;
@@ -592,7 +710,7 @@ public class Board implements MouseListener {
 		}
 	}
 
-	public boolean box7Drawn() { 					//Sides 7, 21, 22, 10
+	public static boolean box7Drawn() { 					//Sides 7, 21, 22, 10
 		Boolean a = false;
 		Boolean b = false;
 		Boolean c = false;
@@ -620,7 +738,7 @@ public class Board implements MouseListener {
 		}
 	}
 	
-	public boolean box8Drawn() { 					//Sides 8, 22, 23, 11
+	public static boolean box8Drawn() { 					//Sides 8, 22, 23, 11
 		Boolean a = false;
 		Boolean b = false;
 		Boolean c = false;
@@ -648,7 +766,7 @@ public class Board implements MouseListener {
 		}
 	}
 	
-	public boolean box9Drawn() { 					//Sides 9, 23, 24, 12
+	public static boolean box9Drawn() { 					//Sides 9, 23, 24, 12
 		Boolean a = false;
 		Boolean b = false;
 		Boolean c = false;
@@ -676,7 +794,8 @@ public class Board implements MouseListener {
 		}
 	}
 	
-	public int box1numSides() {				//Sides 1, 13, 14, 4
+	public static int box1numSides() {				//Sides 1, 13, 14, 4
+		box1SidesDrawn = 0;
 		for (int i = 0; i < linesDrawn.size(); i++) {
 			if (linesDrawn.get(i) == 1) {
 				box1SidesDrawn++;
@@ -694,7 +813,8 @@ public class Board implements MouseListener {
 		return box1SidesDrawn;
 	}
 	
-	public int box2numSides() {				//Sides 2, 14, 15, 5
+	public static int box2numSides() {				//Sides 2, 14, 15, 5
+		box2SidesDrawn = 0;
 		for (int i = 0; i < linesDrawn.size(); i++) {
 			if (linesDrawn.get(i) == 2) {
 				box2SidesDrawn++;
@@ -712,7 +832,8 @@ public class Board implements MouseListener {
 		return box2SidesDrawn;
 	}
 	
-	public int box3numSides() {				//Sides 3, 15, 16, 6
+	public static int box3numSides() {				//Sides 3, 15, 16, 6
+		box3SidesDrawn = 0;
 		for (int i = 0; i < linesDrawn.size(); i++) {
 			if (linesDrawn.get(i) == 3) {
 				box3SidesDrawn++;
@@ -730,7 +851,8 @@ public class Board implements MouseListener {
 		return box3SidesDrawn;
 	}
 	
-	public int box4numSides() {				//Sides 4, 17, 18, 7
+	public static int box4numSides() {				//Sides 4, 17, 18, 7
+		box4SidesDrawn = 0;
 		for (int i = 0; i < linesDrawn.size(); i++) {
 			if (linesDrawn.get(i) == 4) {
 				box4SidesDrawn++;
@@ -748,7 +870,8 @@ public class Board implements MouseListener {
 		return box4SidesDrawn;
 	}
 	
-	public int box5numSides() {				//Sides 5, 18, 19, 8
+	public static int box5numSides() {				//Sides 5, 18, 19, 8
+		box5SidesDrawn = 0;
 		for (int i = 0; i < linesDrawn.size(); i++) {
 			if (linesDrawn.get(i) == 5) {
 				box5SidesDrawn++;
@@ -766,7 +889,8 @@ public class Board implements MouseListener {
 		return box5SidesDrawn;
 	}
 	
-	public int box6numSides() {				//Sides 6, 19, 20, 9
+	public static int box6numSides() {				//Sides 6, 19, 20, 9
+		box6SidesDrawn = 0;
 		for (int i = 0; i < linesDrawn.size(); i++) {
 			if (linesDrawn.get(i) == 6) {
 				box6SidesDrawn++;
@@ -784,7 +908,8 @@ public class Board implements MouseListener {
 		return box6SidesDrawn;
 	}
 	
-	public int box7numSides() {				//Sides 7, 21, 22, 10
+	public static int box7numSides() {				//Sides 7, 21, 22, 10
+		box7SidesDrawn = 0;
 		for (int i = 0; i < linesDrawn.size(); i++) {
 			if (linesDrawn.get(i) == 7) {
 				box7SidesDrawn++;
@@ -802,7 +927,8 @@ public class Board implements MouseListener {
 		return box7SidesDrawn;
 	}
 	
-	public int box8numSides() {				//Sides 8, 22, 23, 11
+	public static int box8numSides() {				//Sides 8, 22, 23, 11
+		box8SidesDrawn = 0;
 		for (int i = 0; i < linesDrawn.size(); i++) {
 			if (linesDrawn.get(i) == 8) {
 				box8SidesDrawn++;
@@ -820,7 +946,8 @@ public class Board implements MouseListener {
 		return box8SidesDrawn;
 	}
 	
-	public int box9numSides() {				//Sides 9, 23, 24, 12
+	public static int box9numSides() {				//Sides 9, 23, 24, 12
+		box9SidesDrawn = 0;
 		for (int i = 0; i < linesDrawn.size(); i++) {
 			if (linesDrawn.get(i) == 9) {
 				box9SidesDrawn++;
@@ -839,7 +966,7 @@ public class Board implements MouseListener {
 	}
 	
 
-	public boolean endGame() {
+	public static boolean endGame() {
 		if (box1Drawn() && !box1Checked) {
 			totalBoxesDrawn++;
 			box1Checked = true;
