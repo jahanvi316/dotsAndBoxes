@@ -370,8 +370,8 @@ public class AILogic {
 		int yEnd = Board.yEnd(finalChoice);
 		Board.AIDraw(xStart, yStart, xEnd, yEnd);
 		Board.linesDrawn.add(finalChoice);
+		//Board.endGame();
 		Player.lastMove = false;
-	//	Board.endGame();
 	}
 
 	
