@@ -1003,6 +1003,9 @@ public class Board extends JPanel implements MouseListener{
 			totalBoxesDrawn++;
 			box9Checked = true;
 		}
+		
+		Player.lastMove = false;
+		
 		//System.out.println("Box 9: " + box9Drawn());
 		if (totalBoxesDrawn == 9) { //if all boxes are drawn
 			System.out.println("Game finished");
