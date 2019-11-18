@@ -17,7 +17,7 @@ public void addPoint(int boxNum) {
 		//if(boxesNotDrawn.contains(boxNum)) {
 	for (int i=0; i < boxesNotDrawn.size(); i++) {
 		if (boxesNotDrawn.get(i) == boxNum) {
-			if(!lastMove) {			     //if player went last
+			if(lastMove) {			     //if player went last
 				playerPoints++;    		 //add points to player score
 			}
 			else {

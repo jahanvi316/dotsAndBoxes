@@ -253,7 +253,7 @@ public class Board extends JPanel implements MouseListener{
 				linesDrawn.add(lineNum);	
 				testPlayer.lastMove = true;
 				testPlayer.move();
-				endGame();
+				//endGame();
 			}
 			else {
 				JOptionPane.showMessageDialog(frame, "This is already a line.", "Error",
@@ -273,6 +273,7 @@ public class Board extends JPanel implements MouseListener{
 		g.setStroke(new BasicStroke(5));
 		g.setColor(Color.red);
 		g.drawLine(xStart, yStart, xEnd, yEnd);
+		endGame();
 	}
 
 	public int lineNumber(int xStart, int yStart, int xEnd, int yEnd) {          //method to label all the lines possible
@@ -1015,7 +1016,7 @@ public class Board extends JPanel implements MouseListener{
 			return true;
 		}
 		else {
-			testPlayer.move(); //if game hasn't ended, AI moves
+			//testPlayer.move(); //if game hasn't ended, AI moves
 			return false;
 		}
 	}
