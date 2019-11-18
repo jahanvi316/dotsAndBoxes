@@ -457,7 +457,7 @@ public class Board extends JPanel implements MouseListener{
 				return 150;
 			}
 			else {
-				if(lineNum == 3 || lineNum == 6 || lineNum == 9 || lineNum == 12 || lineNum == 15 || lineNum == 19 || lineNum == 22) {
+				if(lineNum == 3 || lineNum == 6 || lineNum == 9 || lineNum == 12 || lineNum == 15 || lineNum == 19 || lineNum == 23) {
 					return 250;
 				}
 				else {
@@ -505,7 +505,7 @@ public class Board extends JPanel implements MouseListener{
 				return 150;
 			}
 			else {
-				if(lineNum == 2 || lineNum == 5 || lineNum == 8 || lineNum == 11 || lineNum == 15 || lineNum == 19 || lineNum == 22) {
+				if(lineNum == 2 || lineNum == 5 || lineNum == 8 || lineNum == 11 || lineNum == 15 || lineNum == 19 || lineNum == 23) {
 					return 250;
 				}
 				else {

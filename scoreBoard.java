@@ -25,7 +25,7 @@ public class scoreBoard {
 		board.setBounds(0, 0, 300, 200);
 		boardFrame.setSize(300, 200);
 		playerPoints.setText("Player: " + Player.playerPoints);
-		AIPoints.setText("Computer:" +Player.computerPoints);
+		AIPoints.setText("Computer:" + Player.computerPoints);
 		playerPoints.setHorizontalAlignment(JLabel.CENTER);
 		AIPoints.setHorizontalAlignment(JLabel.CENTER);
 

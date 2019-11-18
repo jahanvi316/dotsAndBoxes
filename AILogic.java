@@ -364,6 +364,9 @@ public class AILogic {
 		int lineChoicesSize = lineChoices.size();
 		int randomChoice = (int) (Math.random() * lineChoicesSize);
 		int finalChoice = lineChoices.get(randomChoice);
+//		if(twoSidesDrawn.contains(finalChoice)) {
+//			drawLine(pickBox());
+//		}
 		System.out.println("final choice: " + finalChoice);
 		int xStart = Board.xStart(finalChoice);
 		int yStart = Board.yStart(finalChoice);
