@@ -359,6 +359,7 @@ public class AILogic {
 				}
 			}
 		}
+		System.out.println("Line choices: " + lineChoices);
 		
 		int lineChoicesSize = lineChoices.size();
 		int randomChoice = (int) (Math.random() * lineChoicesSize);
@@ -370,6 +371,7 @@ public class AILogic {
 		int yEnd = Board.yEnd(finalChoice);
 		Board.AIDraw(xStart, yStart, xEnd, yEnd);
 		Board.linesDrawn.add(finalChoice);
+		//Player.lastMove=false;
 		Board.endGame();
 	}
 

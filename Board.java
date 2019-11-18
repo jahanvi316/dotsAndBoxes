@@ -249,14 +249,16 @@ public class Board extends JPanel implements MouseListener{
 			g.setColor(lineColor);
 			int lineNum = lineNumber(xStart, yStart, xEnd, yEnd);
 			if (!linesDrawn.contains(lineNum)) {  //if line is not already in the list, add lineNum
+				g.drawLine(xStart, yStart, xEnd, yEnd); 
 				linesDrawn.add(lineNum);	
 				testPlayer.lastMove = true;
 				testPlayer.move();
+				endGame();
 			}
 			else {
-				System.out.println("This is already a line.");
+				JOptionPane.showMessageDialog(frame, "This is already a line.", "Error",
+						JOptionPane.ERROR_MESSAGE);
 			}
-			g.drawLine(xStart, yStart, xEnd, yEnd); 
 			System.out.println("ArrayList : " + linesDrawn);
 			System.out.println("end game? " + endGame());
 			System.out.println("Player: " + Player.playerPoints);
